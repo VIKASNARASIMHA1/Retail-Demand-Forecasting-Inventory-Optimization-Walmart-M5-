@@ -1,0 +1,48 @@
+seed: 42
+output_dir: results
+
+data:
+  source: m5                 # m5 | synthetic  (synthetic needs no download)
+  dir: data/raw              # folder with the Kaggle M5 csv files
+  sales_file: sales_train_evaluation.csv
+  n_series: 1000             # random subsample of the 30,490 series; null = all
+  synthetic_n_series: 300
+  synthetic_days: 900
+
+forecast:
+  horizon: 28
+  n_folds: 3                 # rolling-origin backtest folds (last fold ends at last day)
+  quantiles: [0.1, 0.25, 0.5, 0.75, 0.9]
+
+lgb:
+  train_window_days: 730
+  num_boost_round: 300
+  tweedie_variance_power: 1.1
+  params:
+    learning_rate: 0.05
+    num_leaves: 63
+    min_data_in_leaf: 100
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    lambda_l2: 1.0
+    verbosity: -1
+
+inventory:
+  review_period: 7           # days between orders
+  lead_time: 2               # days from order to arrival
+  service_levels: [0.7, 0.8, 0.9, 0.95, 0.98, 0.99]
+  target_fill_rate: 0.95     # used for the headline cost comparison
+  n_draws: 200               # Monte-Carlo draws for quantile-based policy
+  cost_ratio: 0.7            # unit cost = 70% of selling price
+  holding_rate_annual: 0.25  # holding cost = 25%/yr of unit cost
+  stockout_penalty: 1.5      # lost-sale cost = 1.5 x margin (incl. goodwill)
+  sigma_window: 90           # days used for the classical safety-stock sigma
+
+sensitivity:                 # one-at-a-time changes to the cost assumptions (base values in `inventory`)
+  stockout_penalty: [1.0, 3.0]
+  holding_rate_annual: [0.15, 0.40]
+  cost_ratio: [0.5, 0.85]
+
+shap:
+  n_samples: 5000            # validation rows used for SHAP (last fold only)

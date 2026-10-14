@@ -1,0 +1,7 @@
+policy,cost_at_target,in_range,saving_vs_ma28_%
+oracle (perfect foresight),553.3188485745559,False,93.81553341350012
+lgb_tweedie+normal_SS,8550.027658220772,True,4.436003757802009
+lgb_quantile+MC,8611.643939337146,True,3.747316154388014
+ma28+normal_SS,8946.91305766612,True,0.0
+croston_sba+normal_SS,9146.956074931579,True,-2.23588869117326
+empirical_q+MC,11530.467875640781,False,-28.87649406362518
