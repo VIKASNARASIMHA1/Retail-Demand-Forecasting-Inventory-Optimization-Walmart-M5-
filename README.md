@@ -156,6 +156,3 @@ match the official M5 leaderboard.
 - Monte-Carlo policy assumes independent days and extrapolates the tail above P90.
 - Conformal coverage is approximate because time series are not exchangeable.
 
-## Next steps
-Hierarchical reconciliation (MinT), Optuna tuning, N-BEATS/TFT, bootstrap confidence intervals on savings,
-all 30,490 series.
